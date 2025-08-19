@@ -18,6 +18,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class Task(models.Model):
     class Status(models.TextChoices):
         TODO = 'todo', 'к выполнению'
@@ -36,7 +37,6 @@ class Task(models.Model):
         related_name='tasks'
     )
     description = models.TextField(blank=True)
-
     category = models.ForeignKey(
         Category, null=True, blank=True,
         on_delete=models.SET_NULL, related_name='tasks'

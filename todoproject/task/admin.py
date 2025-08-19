@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Task, Category
 
+
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = ('title', 'owner', 'status', 'priority', 'date', 'create_at')
