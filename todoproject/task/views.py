@@ -11,25 +11,14 @@ from .models import Task, Category
 from .forms import TaskForm, CategoryForm
 
 
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Аккаунт создан.")
-            return redirect('login')
-    else:
-        form = UserCreationForm()
-        return render(request, 'registration/register.html', {form:'form'})
-
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'task/task_list.html'
-    context_object_name = 'task'
+    context_object_name = 'tasks'
     paginate_by = 10
 
     def get_queryset(self):
-        qs = Task.objects.filter(owner=self.request.user,).select_related('category')
+        qs = Task.objects.all().select_related('category')
         q = self.request.GET.get('q')
         status = self.request.GET.get('status')
         category = self.request.GET.get('category')
@@ -59,7 +48,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = TaskForm
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('task:task_list')
     template_name = 'task/task_form.html'
 
     def get_queryset(self):

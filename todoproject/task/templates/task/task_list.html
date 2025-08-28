@@ -1,11 +1,17 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
 {% block title %}Мои задачи{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h1 class="h3">Мои задачи</h1>
   <div>
-    <a href="{% url 'category_create' %}" class="btn btn-outline-secondary">+ Категория</a>
-    <a href="{% url 'task_create' %}" class="btn btn-primary">+ Задача</a>
+    <a href="{% url 'task:category_create' %}" class="btn btn-outline-secondary">+ Категория</a>
+    <a href="{% url 'task:task_create' %}" class="btn btn-primary">+ Задача</a>
   </div>
 </div>
 
@@ -16,17 +22,17 @@
   <div class="col-sm-2">
     <select name="status" class="form-select">
       <option value="">Статус</option>
-      <option value="todo" {% if request.GET.status=='todo' %}selected{% endif %}>К выполнению</option>
-      <option value="in_progress" {% if request.GET.status=='in_progress' %}selected{% endif %}>В процессе</option>
-      <option value="done" {% if request.GET.status=='done' %}selected{% endif %}>Сделано</option>
+      <option value="todo" {% if request.GET.status == 'todo' %}selected{% endif %}>К выполнению</option>
+      <option value="in_progress" {% if request.GET.status == 'in_progress' %}selected{% endif %}>В процессе</option>
+      <option value="done" {% if request.GET.status == 'done' %}selected{% endif %}>Сделано</option>
     </select>
   </div>
   <div class="col-sm-2">
     <select name="priority" class="form-select">
       <option value="">Приоритет</option>
-      <option value="3" {% if request.GET.priority=='3' %}selected{% endif %}>Высокий</option>
-      <option value="2" {% if request.GET.priority=='2' %}selected{% endif %}>Средний</option>
-      <option value="1" {% if request.GET.priority=='1' %}selected{% endif %}>Низкий</option>
+      <option value="3" {% if request.GET.priority == '3' %}selected{% endif %}>Высокий</option>
+      <option value="2" {% if request.GET.priority == '2' %}selected{% endif %}>Средний</option>
+      <option value="1" {% if request.GET.priority == '1' %}selected{% endif %}>Низкий</option>
     </select>
   </div>
   <div class="col-sm-3">
@@ -45,7 +51,7 @@
 {% if tasks %}
   <div class="list-group">
     {% for t in tasks %}
-      <a href="{% url 'task_edit' t.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if t.is_overdue %}list-group-item-danger{% endif %}">
+      <a href="{% url 'task:task_edit' t.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if t.is_overdue %}list-group-item-danger{% endif %}">
         <div>
           <div class="fw-semibold">{{ t.title }}</div>
           <small class="text-muted">
@@ -54,7 +60,7 @@
             {% if t.due_date %} · Дедлайн: {{ t.due_date }}{% endif %}
           </small>
         </div>
-        <form method="post" action="{% url 'task_delete' t.pk %}" onsubmit="return confirm('Удалить задачу?');">
+        <form method="post" action="{% url 'task:task_delete' t.pk %}" onsubmit="return confirm('Удалить задачу?');">
           {% csrf_token %}
           <button class="btn btn-sm btn-outline-danger">Удалить</button>
         </form>
@@ -79,3 +85,4 @@
   <div class="alert alert-info">Пока нет задач. Создайте первую!</div>
 {% endif %}
 {% endblock %}
+</body>
