@@ -25,7 +25,7 @@ class TaskListView(LoginRequiredMixin, ListView):
         priority = self.request.GET.get('priority')
 
         if q:
-            qs = qs.filter(Q(title_icontains=q) | Q(description__icontains=q))
+            qs = qs.filter(Q(title__icontains=q) | Q(description__icontains=q))
         if status:
             qs = qs.filter(status=status)
         if category:
@@ -37,7 +37,7 @@ class TaskListView(LoginRequiredMixin, ListView):
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('task:task_list')
     template_name = 'task/task_form.html'
 
     def form_valid(self, form):
@@ -62,7 +62,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
 
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('task:task_list')
     template_name = 'task/task_confirm_delete.html'
 
     def get_queryset(self):
@@ -72,7 +72,7 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     form_class = CategoryForm
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('task:task_list')
     template_name = 'task/category_form.html'
 
     def form_valid(self, form):
