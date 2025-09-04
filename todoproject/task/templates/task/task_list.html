@@ -10,6 +10,7 @@
 </div>
 
 <form method="get" class="row gy-2 gx-2 mb-3">
+  {% csrf_token %}
   <div class="col-sm-4">
     <input name="q" value="{{ request.GET.q }}" class="form-control" placeholder="Поиск по названию/описанию">
   </div>
@@ -51,7 +52,7 @@
           <small class="text-muted">
             {% if t.category %}#{{ t.category.name }} · {% endif %}
             Приоритет: {{ t.get_priority_display }} · Статус: {{ t.get_status_display }}
-            {% if t.due_date %} · Дедлайн: {{ t.due_date }}{% endif %}
+            {% if t.date %} · Дедлайн: {{ t.date }}{% endif %}
           </small>
         </div>
         <form method="post" action="{% url 'task:task_delete' t.pk %}" onsubmit="return confirm('Удалить задачу?');">

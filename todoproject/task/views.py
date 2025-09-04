@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.defaultfilters import title
@@ -11,6 +12,23 @@ from .models import Task, Category
 from .forms import TaskForm, CategoryForm
 
 
+
+def logout_view(request):
+    logout(request)
+    return redirect()
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Аккаунт создан. Войдите, пожалуйста.')
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
+
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'task/task_list.html'
@@ -18,7 +36,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        qs = Task.objects.all().select_related('category')
+        qs = Task.objects.filter(owner=self.request.user).select_related('category')
         q = self.request.GET.get('q')
         status = self.request.GET.get('status')
         category = self.request.GET.get('category')
