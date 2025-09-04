@@ -13,8 +13,8 @@
 - 📅 Установка дат выполнения с отслеживанием просроченных задач
 - 📱 Адаптивный интерфейс
 
-![alt text](https://github.com/EvgeniyPosohin/Todo/blob/main/todoproject/task/templates/image/task_list.png) "interface")
-![alt text](https://github.com/EvgeniyPosohin/Todo/blob/main/todoproject/task/templates/image/new_task.png) "interface")
+![alt text](https://github.com/EvgeniyPosohin/Todo/blob/main/todoproject/task/templates/image/task_list.png)
+![alt text](https://github.com/EvgeniyPosohin/Todo/blob/main/todoproject/task/templates/image/new_task.png)
 
 ## Технологии
 
