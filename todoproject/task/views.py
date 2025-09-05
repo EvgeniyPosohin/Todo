@@ -1,22 +1,18 @@
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.template.defaultfilters import title
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Q
 from django.urls import reverse_lazy
-
 from .models import Task, Category
 from .forms import TaskForm, CategoryForm
-
 
 
 def logout_view(request):
     logout(request)
     return redirect()
-
 
 def register(request):
     if request.method == 'POST':
@@ -28,6 +24,7 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
+
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
@@ -52,6 +49,7 @@ class TaskListView(LoginRequiredMixin, ListView):
             qs = qs.filter(priority=priority)
         return qs
 
+
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
@@ -62,6 +60,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         form.instance.owner = self.request.user
         messages.success(self.request, 'Задача создана.')
         return super().form_valid(form)
+
 
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
