@@ -1,10 +1,9 @@
-from django.urls import path
-from .views import TaskApiView, CategoryApiView, DetalTask
+from rest_framework.routers import SimpleRouter
+from .views import UserViewSet, TaskViewSet, CategoryViewSet
 
-app_name = 'api'
 
-urlpatterns = [
-    path('task/', TaskApiView.as_view()),
-    path('task/<int:pk>/', DetalTask.as_view()),
-    path('category/', CategoryApiView.as_view()),
-    ]
+router = SimpleRouter()
+router.register('users', UserViewSet, basename='users')
+router.register('tasks', TaskViewSet, basename='tasks')
+router.register('category', CategoryViewSet, basename='category')
+urlpatterns = router.urls

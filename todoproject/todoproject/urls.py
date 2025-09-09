@@ -24,5 +24,10 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('register/', register, name='register'),
     path('', include('task.urls')),
-    path('api/', include('api.urls'))
+    path('api/v1/', include('api.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/v1/dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('api/v1/dj-rest-auth/registration/',
+         include('dj_rest_auth.registration.urls')),
+
 ]
